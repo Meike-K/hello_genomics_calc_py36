@@ -1,0 +1,35 @@
+{
+    "FASTGenomicsApplication": {
+        "Name": "Hello Genomics Sample App",
+        "Type": "Calculation",
+        "Class": "Data Quality",
+        "Author": {
+            "Name": "Jon Doe",
+            "Email": "john.doe@fastgenomics.org",
+            "Organisation": "FASTGenomics"
+        },
+        "Description": "This apps helps you to understand FASTGenomics. This description can be markdown",
+        "License": "MIT",
+        "Parameters": {
+                "delimiter": {
+                    "Type": "string",
+                    "Description": "Delimiter of the input-file",
+                    "Default": "\t"
+                }
+        },
+        "Demands": ["CPU"],
+        "Input": {
+                "genes_data_input": {
+                    "Type": "GenesMatrix",
+                    "Usage": "Genes Matrix with entrez IDs"
+                }
+        },
+        "Output": {
+                "data_quality_output": {
+                    "Type": "DataQuality",
+                    "Usage": "Lists the number of genes for data quality overview.",
+                    "FileName": "data_quality.json"
+                }
+        }
+    }
+}

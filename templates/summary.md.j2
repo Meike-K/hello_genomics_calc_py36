@@ -1,0 +1,15 @@
+Sample app for [FASTGenomics](https://www.fastgenomics.org).
+This calculation counts the genes in the dataset for demonstration purpose.
+
+### Results
+We observed {{ results.num_genes }} genes in the dataset.
+
+### Details
+We used no random numbers but set the random seed to {{ parameters.random_seed}}.
+After that we counted the number of lines in the [tsv-file](https://en.wikipedia.org/wiki/Tab-separated_values).
+
+### Parameters
+{% for param, value in parameters.items() -%}
+ - {{param}}: "{{value}}"
+{% endfor -%}
+ - the answer to everything: "{{ the_answer_to_everything }}"
