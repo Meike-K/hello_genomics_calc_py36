@@ -22,7 +22,6 @@ COPY manifest.json /app/
 # Copy your code into the app
 COPY hello_genomics /app/hello_genomics/
 COPY templates /app/templates/
-COPY test /app/test/
 
 # Run the app when the container starts.
 WORKDIR /app/
