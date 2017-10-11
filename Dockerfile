@@ -10,7 +10,7 @@ VOLUME /fastgenomics/summary/
 VOLUME /fastgenomics/config/
 
 # Install fastgenomics python bindings
-RUN pip install git+https://github.com/fastgenomics/fastgenomics-py.git@v0.2.0
+RUN pip install git+https://github.com/fastgenomics/fastgenomics-py.git@v0.3.0
 
 # Install any dependencies your app has
 COPY ./requirements.txt /requirements/
