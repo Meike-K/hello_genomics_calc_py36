@@ -16,11 +16,11 @@ Writing an app is fairly easy - there are some conventions you need to know, but
 This document explains the basic structure using the example of the python "Hello Genomics" app and explains the workflow to get an app published and outlines core concepts.
 
 ## TL;DR
-- Use [Docker](###Docker) and any programming language
-- Provide a [manifest.json](###Appstructure)
-- Write a [summary.md](###Summary) during runtime
-- Mind our [Input/Output](###Fileinput/output) conventions or use our [fastgenomics-py] module
-- [Publish](##Publishing) your application on github and deploy the image to our docker-registry
+- Use [Docker](#docker) and any programming language
+- Provide a [manifest.json](#app-structure-and-manifestjson)
+- Write a [summary.md](#summary) during runtime
+- Mind our [Input/Output](#file-input--output) conventions or use our [fastgenomics-py] module
+- [Publish](#publishing) your application on github and deploy the image to our docker-registry
 
 ## Core concepts
 
@@ -174,7 +174,7 @@ First you have to do is to define your input/output-interface in the `manifest.j
             "Type": "NormalizedExpressionMatrix",
             "Usage": "Genes Matrix with entrez IDs"
         },
-        {...other inputs...}
+        "other_input": {}
 },
 "Output": {
         "data_quality_output": {
@@ -182,7 +182,7 @@ First you have to do is to define your input/output-interface in the `manifest.j
             "Usage": "Lists the number of genes for data quality overview.",
             "FileName": "data_quality.json"
         },
-        {...other outputs...}
+        "other_output": {}
 }
 ```
 
@@ -226,7 +226,7 @@ You can set parameters in your `manifest.json`:
             "Description": "Delimiter of the input-file",
             "Default": "\t"
         },
-        {...}
+        "other_parameter": {}
 },
 ```
 The Type can be one of "Integer", "String", or "Float".
@@ -400,7 +400,7 @@ Using the example of the aforementioned workflow, a typical directory tree your 
             "Type": "NormalizedExpressionMatrix",
             "Usage": "Genes Matrix with entrez IDs"
         },
-        {...other inputs...}
+        "other_input": {}
 },
 "Output": {
         "data_quality_output": {
@@ -408,7 +408,7 @@ Using the example of the aforementioned workflow, a typical directory tree your 
             "Usage": "Lists the number of genes for data quality overview.",
             "FileName": "data_quality.json"
         },
-        {...other outputs...}
+        "other_output": {}
 }
 ```
 The directory "UUID3" is missing because of the order of applications: your application has to run before UUID3, hence it isn't visible yet.
