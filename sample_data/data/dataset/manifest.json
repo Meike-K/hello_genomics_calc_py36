@@ -6,7 +6,7 @@
         "title": "test dataset",
         "version": 1,
         "preprocessing": {
-            "notes_html": "<p>test dataste</p>\n",
+            "notes_html": "<p>test dataset</p>\n",
             "tools": [
                 "test dataset"
             ],
