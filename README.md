@@ -81,7 +81,8 @@ Your application should be structured as follows:
 │   ├── logging_config.py
 │   └── main.py
 ├── manifest.json (mandatory)
-├── readme.md (mandatory)
+├── LICENSE (mandatory)
+├── README.md (mandatory)
 ├── requirements.txt (best practise)
 ├── sample_data (mandatory)
 │   ├── config
@@ -101,6 +102,7 @@ Your application should be structured as follows:
 
 FASTGenomics assumes that:
 - `manifest.json` is present in the root directory
+- `LICENSE` text is present in the root directory
 - `Dockerfile` is present in the root directory and defines a default command via `CMD` or `entry_point`
 - `sample_data` is present and available for testing (together with a `docker-compose.yml`)
 
@@ -110,7 +112,7 @@ Each app has to provide a `manifest.json` file with the following metadata-entri
 - class (superior class of application)
 - Author information (name, email, organization)
 - Description (general description of the app, this can be [commonMark])
-- License
+- License (name of the license)
 - Parameters
 - Demands (A list of requirements your app might have. Currently, only GPU is supported and indicates that your app needs a GPU to do computations)
 - Input (List of files along with a key, under which files can be loaded)
@@ -338,14 +340,15 @@ Checklist:
 2. Write a Dockerfile for your App.
 3. Write a manifest.json, which defines the interfaces of your app and provides some additional information. Use english for every description!
 4. Write a docker-compose.yml and provide sample_date
-5. Write the input_file_mapping.json
-4. Build and test your application by
+5. Ship and respect licences
+6. Write the input_file_mapping.json
+7. Build and test your application by
    `docker-compose -f <your_compose_file> build`
     and `docker-compose -f <your_compose_file> up`
-5. Check your image size: `docker images` gives you an overview.
+8. Check your image size: `docker images` gives you an overview.
    Please go easy with image sizes as starting procedure and memory is limited.
    Think twice before submitting images larger than 1GB.
-5. Push your image to our registry:
+9. Push your image to our registry:
     1. Login to our registry:
        `docker login apps.fastgenomics.org -u fastgenomicsPublic -p /JCiDiuZ6AW/0=ufmvogVzc4/RQfcY0U`
     2. We expect this naming convention for your registry and tag:
@@ -356,7 +359,7 @@ Checklist:
     3. Build your app using `docker build -t <registry/image_name:tag>`
     4. Push to our registry: `docker push <registry/image_name:tag>`
     5. For details about tagging, see [docker tag](https://docs.docker.com/engine/reference/commandline/tag/#examples).
-6. Smile: You did it! You just wrote and published your first FASTGenomics application!
+10. Smile: You did it! You just wrote and published your first FASTGenomics application!
 
 ## Advanced topics
 ### Input/Output
