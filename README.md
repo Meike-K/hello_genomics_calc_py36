@@ -354,7 +354,7 @@ This should be normal behavior for a command line application anyway, but please
 #### User
 
 We use a non Root User when running the app. So do not try to use a specific user in your app-
-Best practice: Develop you app with a non-root user, e. g. the guest account. See the docker [User] instruction.
+Best practice: Develop you app with a non-root user, e. g. the guest account. See the docker [docker-user] instruction.
 
 ## Publishing
 
