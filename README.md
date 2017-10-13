@@ -226,6 +226,7 @@ with my_output_file.open('w') as f:
 
     - Please do not write any files not defined in the manifest.json!
     - Do not expect internet access and even if you'd have some don't use it as reproducibility is not ensured.
+    - Your will not run as root, so don't try to write to protected locations
 
 ### Parameters
 
@@ -350,6 +351,11 @@ See also  [Publishing](##Publishing) for more details.
 Please make sure that your app terminates either with Exit code 0 (success) or a nonzero Exit code if you encountered an error.
 This should be normal behavior for a command line application anyway, but please check it.
 
+#### User
+
+We use a non Root User when running the app. So do not try to use a specific user in your app-
+Best practice: Develop you app with a non-root user, e. g. the guest account. See the docker [User] instruction.
+
 ## Publishing
 
 Checklist:
@@ -455,3 +461,4 @@ As mechanisms could change we highly recommend the usage of our [fastgenomics-py
 
 [commonMark]: http://spec.commonmark.org/0.27
 [fastgenomics-py]: http://www.github.com/fastgenomics/fastgenomics-py
+[docker-user]: https://docs.docker.com/engine/reference/builder/#user
