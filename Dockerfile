@@ -1,13 +1,14 @@
-# you can use any base image you like
-# for example python:3.6.1 or the smaller version python:3.6.1-alpine
+# you can use any base image you like for example python:3.6.1 or the smaller version python:3.6.1-alpine
 FROM python:3.6.1-alpine
-RUN apk add --update --no-cache git
 
 # These values provide you the data you need. See the readme.md file for details
 VOLUME /fastgenomics/data/
+VOLUME /fastgenomics/config/
 VOLUME /fastgenomics/output/
 VOLUME /fastgenomics/summary/
-VOLUME /fastgenomics/config/
+
+# Install core dependencies
+RUN apk add --update --no-cache git
 
 # Install fastgenomics python bindings
 RUN pip install git+https://github.com/fastgenomics/fastgenomics-py.git@v0.3.0
