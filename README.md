@@ -373,8 +373,8 @@ Checklist:
    Please go easy with image sizes as starting procedure and memory is limited.
    Think twice before submitting images larger than 1GB.
 9. Push your image to our registry:
-    1. Login to our registry:
-       `docker login apps.fastgenomics.org -u fastgenomicsPublic -p /JCiDiuZ6AW/0=ufmvogVzc4/RQfcY0U`
+    1. Contact us and login to our registry:
+       `docker login apps.fastgenomics.org -u <your username> -p <your password>`
     2. We expect this naming convention for your registry and tag:
         apps.fastgenomics.org/#your name#/#name of your app#:#version#
 
