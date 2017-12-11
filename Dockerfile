@@ -10,9 +10,6 @@ VOLUME /fastgenomics/summary/
 # Install core dependencies
 RUN apk add --update --no-cache git
 
-# Install fastgenomics python bindings
-RUN pip install git+https://github.com/fastgenomics/fastgenomics-py.git@v0.3.0
-
 # Install any dependencies your app has
 COPY ./requirements.txt /requirements/
 RUN pip install -r /requirements/requirements.txt
