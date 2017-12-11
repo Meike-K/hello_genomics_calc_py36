@@ -15,6 +15,11 @@
                     "Type": "string",
                     "Description": "Delimiter of the input-file",
                     "Default": "\t"
+                },
+                "seed":{
+                    "Type": "integer",
+                    "Description": "Random Seed",
+                    "Default": 1
                 }
         },
         "Demands": ["CPU"],

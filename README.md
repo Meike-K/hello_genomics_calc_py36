@@ -231,7 +231,7 @@ with my_output_file.open('w') as f:
 ### Parameters
 
 Your app needs to work with a variety of datasets and workflows, so baking parameters into to app is a bad idea. Furthermore, such included parameters are not visible to anyone. So please use configuration options, which are more configurable and can be included in the summary automatically. Please use them!
-You can set parameters in your `manifest.json`:
+You can set parameters, and their default values, in your `manifest.json`:
 
 *manifest.json:*
 
@@ -246,14 +246,9 @@ You can set parameters in your `manifest.json`:
 },
 ```
 
-The Type can be one of "Integer", "String", or "Float".
+The Type can be one of "Integer", "String", "Bool" or "Float".
 
-If you want to read them when running your app, read the file `/fastgenomics/config/parameters.json`:
-Each key in the json object corresponds to the name, you defined in your manifest.json, e.g. `delimiter`.
-In contrast to the `manifest.json` describing the app, the `parameters.json` defines the parameter values that are used in the current instance of the app.
-For different datasets and workflows these values could be changed by the users later. Initially, the values should be set to the default as described in manifest.json.
-
-We highly recommend the usage of the [fastgenomics-py] module as follows:
+If you want to read your parameters, we recommend using [fastgenomics-py] as follows:
 
 *your_code.py:*
 
@@ -265,6 +260,17 @@ parameters = fg_io.get_parameters()
 delimiter = fg_io.get_parameter('delimiter')
 ...
 ```
+
+If you wand / need to read the parameters without [fastgenomics-py], the process looks like this:
+
+1. Read the parameters section of manifest.json - this contains the parameters and default values as described above.
+1. Look at /fastgenomics/config/parameters.json, if this file does not exist you can use the default values.
+1. If the file does exist - read it and overwrite values from the manifest with the values from this file. The file is a dictionary.
+
+**parameters.json Details**
+Each key in the json object corresponds to the name, you defined in your manifest.json, e.g. `delimiter`.
+In contrast to the `manifest.json` describing the app, the `parameters.json` defines the parameter values that are used in the current instance of the app.
+For different datasets and workflows these values could be changed by the users later. Initially, the values should be set to the default as described in manifest.json.
 
 **Hints:**
 
@@ -395,7 +401,8 @@ Using the example of the aforementioned workflow, a typical directory tree your 
 (/fastgenomics/)
     .
     ├── config
-    │   └── input_file_mapping.json
+    │   ├── input_file_mapping.json
+    │   └── parameters.json (optional, might not exist)
     ├── data
     │   ├── UUID1
     │   │   └── output
