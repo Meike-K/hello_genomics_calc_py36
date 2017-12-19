@@ -27,4 +27,4 @@ COPY templates /app/templates/
 # Run the app when the container starts.
 WORKDIR /app/
 ENV PYTHONPATH /app/
-CMD ["python", "/app/hello_genomics/main.py"]
+CMD ["python", "-m", "hello_genomics"]

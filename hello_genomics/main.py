@@ -12,7 +12,7 @@ import logging
 
 from collections import defaultdict
 from fastgenomics import io as fg_io
-from hello_genomics import logging_config
+from . import logging_config
 
 # initialize logging
 logging_config.configure_logging(level=logging.INFO)
@@ -127,7 +127,3 @@ def main():
         f_sum.write(summary)
 
     logger.info("Done.")
-
-
-if __name__ == '__main__':
-    main()
