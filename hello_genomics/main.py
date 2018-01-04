@@ -98,9 +98,10 @@ def main():
 
     # WRITE SUMMARY
     #
-    # Reproducibility is a core goal of FASTGenomics, but it is difficult to achieve this without your help.
-    # Docker helps to freeze the exact code your app is using, but code without documentation is difficult to use,
-    # so an app is expected to have a documentation and provide a summary of its results (as CommonMark).
+    # Reproducibility is a core goal of FASTGenomics, but it is difficult to achieve this without
+    # your help. Docker helps to freeze the exact code your app is using, but code without
+    # documentation is difficult to use, so an app is expected to have a documentation and provide
+    # a summary of its results (as GitHub Flavored Markdown).
     # You need to store it as /fastgenomics/summary/summary.md - otherwise it would be ignored.
     #
     # Please provide:

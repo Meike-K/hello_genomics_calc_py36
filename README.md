@@ -115,7 +115,7 @@ Each app has to provide a `manifest.json` file with the following metadata-entri
     - Type (calculation or visualization)
     - class (superior class of application)
     - Author information (name, email, organization)
-    - Description (general description of the app, this can be [commonMark])
+    - Description (general description of the app, this can be [Markdown])
     - License (name of the license)
     - Parameters
     - Demands (A list of requirements your app might have. Currently, only GPU is supported and indicates that your app needs a GPU to do computations)
@@ -276,7 +276,7 @@ delimiter = fg_io.get_parameter('delimiter')
 
 Reproducibility is a core goal of FASTGenomics, but it is difficult to achieve this without your help.
 Docker helps to freeze the exact code your app is using, but code without documentation is difficult to use,
-so an app is expected to have a documentation and provide a so called "summary" of its results (as [CommonMark]).
+so an app is expected to have a documentation and provide a so called "summary" of its results (as [Markdown]).
 You need to store it as `/fastgenomics/summary/summary.md` - otherwise it would be ignored.
 
 While a generic documentation of your application is specified in the manifest.json,
@@ -299,7 +299,7 @@ with summary_file.open('w') as f_sum:
     f_sum.write(summary)
 ```
 
-The summary is a [CommonMark] file your app has to write every time it runs.
+The summary is a [Markdown] file your app has to write every time it runs.
 The file should follow these rules:
 
 - Use only Headings h3-h5 (###, ####, #####)
@@ -459,6 +459,6 @@ This file will be created by the FASTGenomics runtime.
 If you would like to test your application in a FASTGenomics runtime-like environment, you have to provide these directories and the input_file_mapping.json on your own.
 As mechanisms could change we highly recommend the usage of our [fastgenomics-py] python module as described above.
 
-[commonMark]: http://spec.commonmark.org/0.27
+[Markdown]: https://github.github.com/gfm/ "GitHub Flavored Markdown"
 [fastgenomics-py]: http://www.github.com/fastgenomics/fastgenomics-py
 [docker-user]: https://docs.docker.com/engine/reference/builder/#user
