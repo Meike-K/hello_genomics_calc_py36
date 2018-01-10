@@ -1,4 +1,4 @@
-``` txt
+```
     o      O        o  o              .oOOOo.
     O      o       O  O              .O     o                              o
     o      O       o  o              o
@@ -49,20 +49,20 @@ You never heard of Docker before? Read the article [Docker Overview](https://doc
 
 These are the very small number of things you really need to know:
 
-    - `Dockerfile`: This is the construction plan of your application: Here you decide what to `COPY` into, `RUN` and execute (`CMD`) within your container.
-    - `docker-compose.yml` file: This file describes, how to build and start your container and providing input/output directories (volumes) for your container.
-    Have a closer look at our example in order to test your application in a FASTGenomics-runtime-like environment.
+- `Dockerfile`: This is the construction plan of your application: Here you decide what to `COPY` into, `RUN` and execute (`CMD`) within your container.
+- `docker-compose.yml` file: This file describes, how to build and start your container and providing input/output directories (volumes) for your container.
+  Have a closer look at our example in order to test your application in a FASTGenomics-runtime-like environment.
 
 In order to build and test your container proceed as follows:
 
-    0. Install docker on your developer machine [Install Docker (CE)](https://docs.docker.com/engine/installation/)
-    1. Write the Dockerfile and docker-compose.yml
-    2. Build your container with
-    `docker-compose -f <docker-compose.filename.yml> build`
-    3. Provide sample input data (have a closer look at our example) and check paths in the `docker-compose.yml`.
-    We recommend relative paths.
-    4. Start the app via
-    `docker-compose -f <docker-compose.filename.yml> up`
+0. Install docker on your developer machine [Install Docker (CE)](https://docs.docker.com/engine/installation/)
+1. Write the Dockerfile and docker-compose.yml
+2. Build your container with
+   `docker-compose -f <docker-compose.filename.yml> build`
+3. Provide sample input data (have a closer look at our example) and check paths in the `docker-compose.yml`.
+   We recommend relative paths.
+4. Start the app via
+   `docker-compose -f <docker-compose.filename.yml> up`
 
 You already have a working python-script? Just clone hello-genomics and interchange the main.py, rename the directory,
 and modify the paths in the Dockerfile.
@@ -74,7 +74,7 @@ To inspect the output of an application just type `docker logs <container-id>`.
 
 Your application should be structured as follows:
 
-``` txt
+```
 .
 ├── docker-compose.yml (best practise)
 ├── Dockerfile (mandatory)
@@ -104,36 +104,36 @@ Your application should be structured as follows:
 
 FASTGenomics assumes that:
 
-    - `manifest.json` is present in the root directory
-    - `LICENSE` text is present in the root directory
-    - `Dockerfile` is present in the root directory and defines a default command via `CMD` or `entry_point`
-    - `sample_data` is present and available for testing (together with a `docker-compose.yml`)
+- `manifest.json` is present in the root directory
+- `LICENSE` text is present in the root directory
+- `Dockerfile` is present in the root directory and defines a default command via `CMD` or `entry_point`
+- `sample_data` is present and available for testing (together with a `docker-compose.yml`)
 
 Each app has to provide a `manifest.json` file with the following metadata-entries:
 
-    - Name (of the application)
-    - Type (calculation or visualization)
-    - class (superior class of application)
-    - Author information (name, email, organization)
-    - Description (general description of the app, this can be [Markdown])
-    - License (name of the license)
-    - Parameters
-    - Demands (A list of requirements your app might have. Currently, only GPU is supported and indicates that your app needs a GPU to do computations)
-    - Input (List of files along with a key, under which files can be loaded)
-    - Output (List of files along with a key, under which files can be stored)
+- Name (of the application)
+- Type (calculation or visualization)
+- class (superior class of application)
+- Author information (name, email, organization)
+- Description (general description of the app, this can be [Markdown])
+- License (name of the license)
+- Parameters
+- Demands (A list of requirements your app might have. Currently, only GPU is supported and indicates that your app needs a GPU to do computations)
+- Input (List of files along with a key, under which files can be loaded)
+- Output (List of files along with a key, under which files can be stored)
 
 See attached manifest.json for more information.
 To validate your directory structure and manifest.json just use `check_my_app`in the [fastgenomics-py] package.
 
 ### Being part of an workflow
 
-``` txt
-    +------------+        +------------+        +------------+
-    |            |        |            |        |            |
-    |  app N-1   | +----> |  your app  | +----> |   app N+1  |
-    |  (UUID1)   | a.txt  |  (UUID2)   | b.txt  |   (UUID3)  |
-    |            |        |            |        |            |
-    +------------+        +------------+        +------------+
+```
+    ┌────────────┐        ┌────────────┐        ┌────────────┐
+    │            │        │            │        │            │
+    │  app N-1   │ ─────→ │  your app  │ ─────→ │   app N+1  │
+    │  (UUID1)   │ a.txt  │  (UUID2)   │ b.txt  │   (UUID3)  │
+    │            │        │            │        │            │
+    └────────────┘        └────────────┘        └────────────┘
 ```
 
 Your app is part of something bigger and a piece of the puzzle:
@@ -178,7 +178,7 @@ First you have to do is to define your input/output-interface in the `manifest.j
 
 *manifest.json:*
 
-``` json
+```json
 "Input": {
         "normalized_expression_input": {
             "Type": "NormalizedExpressionMatrix",
@@ -200,7 +200,7 @@ Then you can access the files in your python code via:
 
 *your_code.py:*
 
-``` python
+```python
 from fastgenomics import io as fg_io
 
 normalized_input_matrix = fg_io.get_input_path('normalized_expression_input')
@@ -213,7 +213,7 @@ Analogous to the input-file-mapping you can write output-files:
 
 *your_code.py:*
 
-``` python
+```python
 from fastgenomics import io as fg_io
 
 my_output_file = fg_io.get_input_path('data_quality_output')
@@ -224,9 +224,9 @@ with my_output_file.open('w') as f:
 
 **Warnings:**
 
-    - Please do not write any files not defined in the manifest.json!
-    - Do not expect internet access and even if you'd have some don't use it as reproducibility is not ensured.
-    - Your will not run as root, so don't try to write to protected locations
+- Please do not write any files not defined in the manifest.json!
+- Do not expect internet access and even if you'd have some don't use it as reproducibility is not ensured.
+- Your will not run as root, so don't try to write to protected locations
 
 ### Parameters
 
@@ -235,7 +235,7 @@ You can set parameters and their default values in your `manifest.json`:
 
 *manifest.json:*
 
-``` json
+```json
 "Parameters": {
         "delimiter": {
             "Type": "string",
@@ -252,7 +252,7 @@ If you want to read parameters, we recommend using [fastgenomics-py] as follows:
 
 *your_code.py:*
 
-``` python
+```python
 from fastgenomics import io as fg_io
 ...
 parameters = fg_io.get_parameters()
@@ -295,7 +295,7 @@ For example: "... and identified 14 clusters ..."
 
 *your_code.py:*
 
-``` python
+```python
 from fastgenomics import io as fg_io
 
 summary = "<content>"
@@ -397,7 +397,7 @@ Checklist:
 
 Using the example of the aforementioned workflow, a typical directory tree your app `UUID2` could see under `/fastgenomics/` looks like the following tree:
 
-``` txt
+```
 (/fastgenomics/)
     .
     ├── config
@@ -431,7 +431,7 @@ Using the example of the aforementioned workflow, a typical directory tree your 
         └── summary.md
 ```
 
-``` json
+```json
 
 "Input": {
         "normalized_expression_input": {
@@ -454,7 +454,7 @@ The directory "UUID3" is missing because of the order of applications: your appl
 
 The actual filename can be looked up in `/fastgenomics/config/input_file_mapping.json`, which looks like the following example:
 
-``` json
+```json
 {
     "normalized_expression": "UUID1/a.txt"
 }
