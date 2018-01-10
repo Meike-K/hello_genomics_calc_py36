@@ -1,1 +1,2 @@
 Jinja2==2.9.6
+git+https://github.com/fastgenomics/fastgenomics-py.git@v0.3.3
