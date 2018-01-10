@@ -1,2 +1,4 @@
-Jinja2==2.9.6
-git+https://github.com/fastgenomics/fastgenomics-py.git@v0.3.3
+git+https://github.com/fastgenomics/fastgenomics-py.git@v0.4.1#egg=fastgenomics
+
+Jinja2>=2.9,<3.0
+pytest>=3.1,<4.0
