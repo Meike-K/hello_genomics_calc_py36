@@ -17,11 +17,10 @@ RUN pip install -r /requirements/requirements.txt
 # Copy your app manifest to /app - must be located here for usage of default parameters
 COPY manifest.json /app/
 
-# Copy your code into the app
-COPY hello_genomics /app/hello_genomics/
-COPY templates /app/templates/
-
-# Run the app when the container starts.
+# Set workdir, set python-environment and copy your code into the app
 WORKDIR /app/
 ENV PYTHONPATH /app/
+COPY src/ /app/
+
+# Run the app when the container starts
 CMD ["python", "-m", "hello_genomics"]
