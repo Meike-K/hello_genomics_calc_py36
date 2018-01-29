@@ -4,17 +4,17 @@
         "Type": "Calculation",
         "Class": "Data Quality",
         "Author": {
-            "Name": "Jon Doe",
-            "Email": "john.doe@fastgenomics.org",
+            "Name": "Jane Doe",
+            "Email": "jane.doe@fastgenomics.org",
             "Organisation": "FASTGenomics"
         },
         "Description": "This apps helps you to understand FASTGenomics. This description can be markdown",
         "License": "MIT",
         "Parameters": {
-                "delimiter": {
-                    "Type": "string",
-                    "Description": "Delimiter of the input-file",
-                    "Default": "\t"
+                "drop_unknown": {
+                    "Type": "bool",
+                    "Description": "Drop genes with unknown gene type",
+                    "Default": false
                 },
                 "seed":{
                     "Type": "integer",

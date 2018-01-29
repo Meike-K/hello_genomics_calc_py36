@@ -90,11 +90,9 @@ Your application should be structured as follows:
 │   ├── config
 │   │   └── input_file_mapping.json
 │   ├── data
-│   │   ├── dataset
-│   │   │   ├── ...
-│   │   │   └── considered_genes.tsv
-│   │   └── other_app_uuid
-│   │       └── output
+│   │   ├── considered_genes.csv
+│   │   ├── ...
+│   │   └── some_output.csv
 │   ├── output
 │   └── summary
 ├── templates (optional)
@@ -237,16 +235,16 @@ You can set parameters and their default values in your `manifest.json`:
 
 ```json
 "Parameters": {
-        "delimiter": {
-            "Type": "string",
-            "Description": "Delimiter of the input-file",
-            "Default": "\t"
+        "drop_unknown": {
+            "Type": "bool",
+            "Description": "Drop genes with unknown gene type",
+            "Default": false
         },
         "other_parameter": {}
 },
 ```
 
-The Type can be one of "Integer", "String", "Bool" or "Float".
+The Type can be one of "Integer", "String", "Bool", "Float", etc. (see [fastgenomics-py] for details).
 
 If you want to read parameters, we recommend using [fastgenomics-py] as follows:
 
@@ -404,13 +402,11 @@ Using the example of the aforementioned workflow, a typical directory tree your 
     │   ├── input_file_mapping.json
     │   └── parameters.json (optional, might not exist)
     ├── data
-    │   ├── UUID1
-    │   │   └── output
-    │   │       └── a.txt
-    │   ├── UUID2
-    │   │   └── output
-    │   │       └── b.txt
-    │   └── dataset
+    │   ├── some_path_you_can't_know
+    │   │   └── a.txt
+    │   ├── some_other_path_you_can't_know
+    │   │   └── b.txt
+    │   └── some_path_to_dataset
     │       ├── cells.tsv
     │       ├── data_quality.json
     │       ├── expressions_entrez.tsv
@@ -456,7 +452,7 @@ The actual filename can be looked up in `/fastgenomics/config/input_file_mapping
 
 ```json
 {
-    "normalized_expression": "UUID1/a.txt"
+    "normalized_expression": "some_path_you_can't_know/a.txt"
 }
 ```
 
