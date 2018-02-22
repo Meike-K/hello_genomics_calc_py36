@@ -29,8 +29,9 @@ code and some sample date.
 If you want to understand, why things are the way they are have a closer look [here](#deep-dive-into-fastgenomics).
 
 ## The How (Cookbook-Style)
-0. Write your application and provide sample data
-1. Structure your application as follows:
+0. Write your application and provide sample data.
+
+1. Structure your application locally as follows:
   ```
     .
     ├── docker-compose.yml (used for testing your app)
@@ -57,7 +58,10 @@ If you want to understand, why things are the way they are have a closer look [h
     │       └── summary.md.j2
     └── test (best practise)
   ```
+  This structure helps to create docker images and test things on ease.  
+  
   *Tip:* This sample app has already the structure required - just clone it and get started.
+  
 2. Edit the `manifest.json`:
   - Define each parameter / constant you want to use in your application
   - Define input and output of your application
@@ -67,8 +71,10 @@ If you want to understand, why things are the way they are have a closer look [h
     via the `input_file_mapping.json`, where you can lookup the filename (value) for a certain key. 
     Output is a promise you make for other apps. Provide key for internal usage and the actual value (filename) of the
     files you will write.
+    
 3. Edit the `input_file_mapping.json` and define key/value pairs for each input files requested by your app and provide
    the relative path to your sample_data/data directory
+   
 4. Rewrite your I/O and usage of parameters in your application by making use of our [fastgenomics-py] module or by
    reading the `manifest.json` together with the `parameters.json` and `input_file_mapping.json`.
    Default values are defined in the manifest.json; If you want to re-configure things for special cases redefine
@@ -83,23 +89,29 @@ If you want to understand, why things are the way they are have a closer look [h
    ... 
    param = fg_io.get_parameter('my_parameter')
    ```
+   
 5. If you're writing a calculation provide a `summary.md` and write results of the calculations into 
    `path_to_sample/summary/summary.md`.
    The summary has to consist of an abstract describing your calculation, a results-part as well as the list of every
    parameter used.
    A abstract path to the `summary.md` file can be accessed by `fg_io.get_summary_path().open('w')`
+   
 6. Now it's time for a first test of your rewrite: Run your app locally by setting paths with
    ```python
    import this
    ...
    import fastgenomics.io as fg_io
 
-   fg_io.set_testing_paths(...)   # TODO
+   # set paths for local testing (remove before creating docker image!)
+   fg_io.set_paths(app_dir='./src', data_root='./sample_data')
    ```
+   
 7. Edit the `Dockerfile`:
-   The Dockerfile is some kind of blueprint how to tie up your application together will requirements into an image 
+   The Dockerfile is some kind of blueprint how to tie up your application together will requirements into an image.
+   
 8. Edit the `docker-compose.yml` in order to mount your local files for testing (the sample_data directory) into your
    application.
+   
 9. Build and run your application with `docker-compose build` and `docker-compose up`. To stop an infinite running app
    run `docker-compose down` or hit Ctrl + C or kill it with `docker kill <id of the container>`which you can lookup by
    `docker ps -a`.
@@ -110,12 +122,11 @@ If you want to understand, why things are the way they are have a closer look [h
 ### Docker
 
 Every application runs in the FASTGenomics runtime in the form of an own docker container (which you can imagine as
-self-sustaining, portable workplaces).  Using docker containers helps us to eliminate the "works on my machine" problems
-and afford full reproducibility and transparency.  Moreover using docker containers allows you to use any programming
-language and framework you want to achieve your results and makes things simple for us integrating your app into the
-analyses if you want to.  You like Python? So do we. You are an Haskel or Julia expert? Just use it! Do you have a
-special configuration, which is extremely complicated or annoying to install? Just do it once and your app will work
-everywhere.
+self-sustaining, portable workplaces). Using docker containers helps us to eliminate the "works on my machine" problems
+and afford full reproducibility and transparency. Moreover using docker containers allows you to use any programming
+language and framework you prefer while keeping things as simple as possible for us to integrate your app into an
+analysis. You like Python? So do we. You are an Haskel or Julia expert? Just use it! Do you have some special
+configuration, which is extremely complicated or annoying to install? Just do it once and your app will work everywhere.
 
 You never heard of Docker before? Read the article [Docker Overview].
 
@@ -144,7 +155,7 @@ inspect the output of an application just type `docker logs <container-id>`.
 
 ### App structure and manifest.json
 
-Your application should be structured as follows:
+Your local application should be structured as follows:
 
 ```
 .
@@ -210,7 +221,7 @@ See attached manifest.json for more information.  To validate your directory str
 ```
 
 Your app is part of something bigger and a piece of the puzzle: One of our goals is to enable you to create a powerful
-analyses composed of small interchangeable applications like yours.  To achieve this, every app should be as universal
+analyses composed of small interchangeable applications like yours. To achieve this, every app should be as universal
 as possible.  Also every app has to declare its in- and outputs so that we know which apps can be combined to a
 "workflow".
 
@@ -220,7 +231,7 @@ unclustered data as input.  In future releases we would like to unify these type
 play "Lego"-like interface for your app.
 
 Let's assume your application gets the ID `UUID2` in the FASTGenomics runtime and runs after UUID1 and before UUID3.
-Then you can have access every output of UUID1 but not UUID3 because it needs your output to run.  In the following
+Hence you can have access to every output of UUID1 but not UUID3 because it needs your output to run. In the following
 section we describe how to access output-data from other applications or have access to the dataset.
 
 The best method to test, if your application can be part of a workflow is by running it with sample data with the
@@ -228,7 +239,7 @@ input/output of the following section.
 
 ### File input / output
 
-We use files to talk to your app. If you write a calculation app, we expect your output as files, too.  Every app can
+We use files to talk to your app. If you write a calculation app, we expect your output as files, too. Every app can
 expect to find these folders:
 
 | Folder  | Purpose  | Mode  |
@@ -238,11 +249,13 @@ expect to find these folders:
 | /fastgenomics/output/   | Output directory for your result-files                   | Read/Write |
 | /fastgenomics/summary/  | Store your summary here                                  | Read/Write |
 
-**Problem:** To get access to data one could just simply load the data from `/fastgenomics/data/path/to/data.txt` and
-start your calculation but that's not how FASTGenomics works: As your application (ID `UUID2`) is part of a larger
-workflow, whose applications are interchangeable, you cannot know the exact filename nor UUID at runtime.  To address
-this problem we introduced a file mapping mechanism, in which you define unique keys under which you would like to get
-the actual path of the input-file/output-file.
+**Problem:**
+
+To get access to data one could just simply load the data from `/fastgenomics/data/path/to/data.txt` and start your 
+calculation but that's not how FASTGenomics works: As your application (ID `UUID2`) is part of a larger workflow, whose 
+applications are interchangeable, you can neither know the exact filename nor UUID from the previous application.
+To address this problem we introduced a file mapping mechanism, in which you define unique keys under which you would 
+like to get the actual path of the input-file/output-file.
 
 Using the example of the aforementioned workflow and our [fastgenomics-py] python module, a typical input/output works
 as follows:
@@ -251,7 +264,7 @@ Lets start with an example: Assume you expect a normalized matrix (access-key `n
 expression matrix as input (which is produced by app UUID1, a.txt) and you promise to write some data quality related
 file "data_quality.json" (access-key `data_quality_output`).
 
-First you have to do is to define your input/output-interface in the `manifest.json` as follows:
+First you have to define your input/output-interface in the `manifest.json` as follows:
 
 *manifest.json:*
 
@@ -347,9 +360,10 @@ If you want / need to read the parameters without [fastgenomics-py], the process
 1. If the file does exist - read it and overwrite values from the manifest with the values from this file. The file is a
    dictionary.
 
-**parameters.json Details** Each key in the json object corresponds to the name you have defined in your application's
-manifest.json, e.g. `delimiter`.  In contrast to the `manifest.json` describing the app, the `parameters.json` defines
-the parameter values that are used in the current execution of the app.  For different datasets and workflows these
+**parameters.json Details** 
+Each key in the json object corresponds to the name you have defined in your application's manifest.json, e.g. 
+`delimiter`. In contrast to the `manifest.json` describing the app, the `parameters.json` defines
+the parameter values that are used in the current execution of the app. For different datasets and workflows these
 values could be changed by the users later. Initially, the values should be set to the default as described in
 manifest.json.
 
@@ -368,10 +382,9 @@ so an app is expected to have a documentation and provide a so called "summary" 
 You need to store it as `/fastgenomics/summary/summary.md` - otherwise it would be ignored.
 
 While a generic documentation of your application is specified in the manifest.json,
-we encourage you to describe the scientific meaning of the results achieved my your application in the summary 
-in terms of a "abstract, methods and results"-section of a publication.
-To do so, your application needs to describe all operations applied to the data and all achieved results,
-which only can be described during and after runtime of your application as it doesn't know the input data yet.
+we encourage you to describe the scientific meaning of the results in the summary. This summary should describe the
+results, achieved by your application, in terms of an "abstract, a methods and a results"-section of a publication.
+If necessary provide results of your analysis within the summary:  
 
 For example: "... and identified 14 clusters ..."
 
@@ -390,7 +403,7 @@ with summary_file.open('w') as f_sum:
 The summary is a [Markdown] file your app has to write every time it runs.
 The file should follow these rules:
 
-- Use only Headings h3-h5 (###, ####, #####)
+- Use only headings h3-h5 (###, ####, #####)
 - Mandatory sections:
   - Abstract (without heading, just the first lines in the document)
   - Results (h3 heading, upper case, optional for visualizations)
@@ -410,33 +423,33 @@ The file should follow these rules:
 
 #### Logging
 
-You might wonder how your app can output progress- debug information etc.  There is an easy solution for this: simply
-write output the stdout /stderr.  For example print("hello world"), the user of your app can then see this output.
+You might wonder how your app can output progress- debug information etc. There is an easy solution for this: simply
+write output the stdout /stderr. For example print("hello world"), the user of your app can then see this output.
 
 For enhanced debugging and logging we recommend logging-modules like the python `logging` module (see hello genomics).
 
 To gain access to the output of your running/terminated application type: `docker ps -a` to list all (`-a`) running and
-terminated apps and identify the container-id of your application.  Then type `docker logs <container-id>` to access
+terminated apps and identify the container-id of your application. Then type `docker logs <container-id>` to access
 logs.
 
 #### Versions
 
-Most of the time, you want to use version numbers to differentiate versions of your application.  This version number is
-not included in your manifest.json, since we use a Docker feature: tags.  Every Docker image has a tag, which can be
-used as the version number.  You can see this with many images, where the part after ":" is the tag.  E.g.:
-`python:3.6.1` denotes that we use the python image, with Python version 3.6.1.
+Most of the time, you want to use version numbers to differentiate versions of your application. This version number is
+not included in your manifest.json, since we use a Docker feature: tags. Every Docker image has a tag, which can be
+used as the version number.  You can see this with many images, where the part after ":" is the tag.  
+E.g.: `python:3.6.1` denotes that we use the python image, with Python version 3.6.1.
 
-You can use any tag except `:latest`, but we recommend an incrementing integer or a Major.Minor.Patch scheme.  Please
+You can use any tag except `:latest`, but we recommend an incrementing integer or a Major.Minor.Patch scheme. Please
 make sure that each push to our registry uses a new tag, do not attempt to overwrite older versions!
 
 **We highly encourage you to pin all of your dependencies/requirements to ensure reproducibility.**
 
-See also  [Publishing](##Publishing) for more details.
+See also [Publishing](##Publishing) for more details.
 
 #### Exit-Code
 
 Please make sure that your app terminates either with Exit code 0 (success) or a nonzero Exit code if you encountered an
-error.  This should be normal behavior for a command line application anyway, but please check it.
+error. This should be normal behavior for a command line application anyway, but please check it.
 
 #### User
 
@@ -546,8 +559,9 @@ example:
 This file will be created by the FASTGenomics runtime.
 
 **Hint:**
+
 If you would like to test your application in a FASTGenomics runtime-like environment, you have to provide these
-directories and the input_file_mapping.json on your own.  As mechanisms could change we highly recommend the usage of
+directories and the input_file_mapping.json on your own. As mechanisms could change we highly recommend the usage of
 our [fastgenomics-py] python module as described above.
 
 [Markdown]: https://github.github.com/gfm/ "GitHub Flavored Markdown"

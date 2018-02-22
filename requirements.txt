@@ -1,4 +1,4 @@
-git+https://github.com/fastgenomics/fastgenomics-py.git@v0.4.1#egg=fastgenomics
-
 Jinja2>=2.9,<3.0
 pytest>=3.1,<4.0
+
+git+https://github.com/fastgenomics/fastgenomics-py.git@v0.6.0#egg=fastgenomics
